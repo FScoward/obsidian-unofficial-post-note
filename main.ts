@@ -1,4 +1,4 @@
-import { App, Editor, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, Setting } from 'obsidian';
+import { App, Editor, EditorPosition, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, Setting } from 'obsidian';
 
 // Remember to rename these classes and interfaces!
 
@@ -27,6 +27,23 @@ export default class MyPlugin extends Plugin {
 		// This adds a status bar item to the bottom of the app. Does not work on mobile apps.
 		const statusBarItemEl = this.addStatusBarItem();
 		statusBarItemEl.setText('Status Bar Text');
+
+
+		// todo
+		this.addCommand({
+			id: 'preview',
+			name: 'preview',
+			editorCallback: (editor: Editor, view: MarkdownView) => {
+				const metadataCache = view.app.metadataCache.getFileCache(view.file);
+				const frontmatter = metadataCache?.frontmatter;
+				if (frontmatter) {
+					const endPos: EditorPosition = { line: frontmatter?.position.end.line + 1, ch: 0 };
+					const lastLine: EditorPosition = { line: editor.lastLine() + 1, ch: 0 };
+					const x = editor.getRange(endPos, lastLine);
+					new Notice(x)
+				}
+			}
+		});
 
 		// This adds a simple command that can be triggered anywhere
 		this.addCommand({
