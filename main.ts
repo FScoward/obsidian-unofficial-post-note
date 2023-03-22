@@ -42,6 +42,9 @@ export default class MyPlugin extends Plugin {
 					const x = editor.getRange(endPos, lastLine);
 					new Notice(x)
 				}
+
+				// title
+				new Notice(view.file.basename);
 			}
 		});
 
