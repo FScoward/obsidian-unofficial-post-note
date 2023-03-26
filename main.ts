@@ -44,7 +44,8 @@ export default class MyPlugin extends Plugin {
 				}
 
 				// title
-				new Notice(view.file.basename);
+				const title = view.file.basename;
+				new Notice(title);
 			}
 		});
 
